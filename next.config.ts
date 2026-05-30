@@ -5,10 +5,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  experimental: {
-    turbo: {
-      root: path.resolve(__dirname),
-    },
+  turbopack: {
+    root: path.resolve(__dirname),
   },
 };
 
