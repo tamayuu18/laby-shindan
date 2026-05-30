@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+body {
+  background: #0d0b1e;
+  color: #ffffff;
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
