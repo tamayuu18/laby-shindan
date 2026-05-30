@@ -3,6 +3,15 @@
 import { forwardRef } from "react";
 import type { ResultData } from "@/types";
 
+const characterImage: Record<string, string> = {
+  "champagne-dog": "/characters/champagne-dog.jpg",
+  tanuki: "/characters/tanuki.jpg",
+  cat: "/characters/cat.jpg",
+  rabbit: "/characters/rabbit.jpg",
+  hamster: "/characters/hamster.jpg",
+  jellyfish: "/characters/jellyfish.jpg",
+};
+
 type Props = {
   result: ResultData;
   siteUrl?: string;
@@ -91,22 +100,23 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(
             justifyContent: "center",
           }}
         >
-          {/* Character emoji in card */}
+          {/* Character image */}
           <div
             style={{
               width: 520,
               height: 520,
               borderRadius: 80,
-              background: `linear-gradient(135deg, ${result.cardBg} 0%, #fff 100%)`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 300,
+              overflow: "hidden",
               marginBottom: 60,
               boxShadow: `0 20px 80px ${result.cardAccent}50`,
             }}
           >
-            {result.emoji}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={characterImage[result.id] ?? ""}
+              alt={result.name}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
           </div>
 
           <p

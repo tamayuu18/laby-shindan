@@ -1,8 +1,18 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import type { ResultData } from "@/types";
 import StoryCard from "./StoryCard";
+
+const characterImage: Record<string, string> = {
+  "champagne-dog": "/characters/champagne-dog.jpg",
+  tanuki: "/characters/tanuki.jpg",
+  cat: "/characters/cat.jpg",
+  rabbit: "/characters/rabbit.jpg",
+  hamster: "/characters/hamster.jpg",
+  jellyfish: "/characters/jellyfish.jpg",
+};
 
 type Props = {
   result: ResultData;
@@ -85,13 +95,17 @@ export default function ResultScreen({ result, onReset }: Props) {
 
         {/* Character display */}
         <div
-          className="w-44 h-44 mx-auto rounded-3xl flex items-center justify-center text-8xl mb-5 shadow-lg"
-          style={{
-            background: `linear-gradient(135deg, ${result.cardBg} 0%, #fff 100%)`,
-            boxShadow: `0 8px 32px ${result.cardAccent}40`,
-          }}
+          className="w-52 h-52 mx-auto rounded-3xl overflow-hidden mb-5 shadow-lg"
+          style={{ boxShadow: `0 8px 32px ${result.cardAccent}40` }}
         >
-          {result.emoji}
+          <Image
+            src={characterImage[result.id] ?? ""}
+            alt={result.name}
+            width={208}
+            height={208}
+            className="w-full h-full object-cover"
+            priority
+          />
         </div>
 
         <h1
