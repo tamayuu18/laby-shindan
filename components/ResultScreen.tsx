@@ -6,12 +6,12 @@ import type { ResultData } from "@/types";
 import StoryCard from "./StoryCard";
 
 const characterImage: Record<string, string> = {
-  "champagne-dog": "/characters/champagne-dog.jpg",
-  tanuki: "/characters/tanuki.jpg",
-  cat: "/characters/cat.jpg",
-  rabbit: "/characters/rabbit.jpg",
-  hamster: "/characters/hamster.jpg",
-  jellyfish: "/characters/jellyfish.jpg",
+  "champagne-dog": "/characters/champagne-dog.png",
+  tanuki: "/characters/tanuki.png",
+  cat: "/characters/cat.png",
+  rabbit: "/characters/rabbit.png",
+  hamster: "/characters/hamster.png",
+  jellyfish: "/characters/jellyfish.png",
 };
 
 type Props = {

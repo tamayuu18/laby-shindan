@@ -8,12 +8,12 @@ type Props = {
 };
 
 const characterImage: Record<string, string> = {
-  "champagne-dog": "/characters/champagne-dog.jpg",
-  tanuki: "/characters/tanuki.jpg",
-  cat: "/characters/cat.jpg",
-  rabbit: "/characters/rabbit.jpg",
-  hamster: "/characters/hamster.jpg",
-  jellyfish: "/characters/jellyfish.jpg",
+  "champagne-dog": "/characters/champagne-dog.png",
+  tanuki: "/characters/tanuki.png",
+  cat: "/characters/cat.png",
+  rabbit: "/characters/rabbit.png",
+  hamster: "/characters/hamster.png",
+  jellyfish: "/characters/jellyfish.png",
 };
 
 const shortName: Record<string, string[]> = {
@@ -49,7 +49,7 @@ export default function StartScreen({ onStart }: Props) {
         <div className="relative flex flex-col items-center pt-10 pb-2 px-6 z-10">
           <div className="w-64 h-64 rounded-3xl overflow-hidden shadow-2xl">
             <Image
-              src="/characters/champagne-dog.jpg"
+              src="/characters/champagne-dog.png"
               alt="人類だいすきシャンパン犬"
               width={256}
               height={256}
