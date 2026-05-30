@@ -9,14 +9,17 @@ export default function ProgressBar({ current, total }: Props) {
   const pct = Math.round((current / total) * 100);
   return (
     <div className="w-full">
-      <div className="flex justify-between text-xs text-white/50 mb-1">
-        <span>{current} / {total}</span>
+      <div className="flex justify-between text-xs mb-2" style={{ color: "var(--text-sub)" }}>
+        <span className="font-bold">{current} / {total}</span>
         <span>{pct}%</span>
       </div>
-      <div className="w-full bg-white/10 rounded-full h-1.5">
+      <div className="w-full rounded-full h-2" style={{ background: "#e9deff" }}>
         <div
-          className="h-1.5 rounded-full bg-gradient-to-r from-violet-400 to-pink-400 transition-all duration-500"
-          style={{ width: `${pct}%` }}
+          className="h-2 rounded-full transition-all duration-500"
+          style={{
+            width: `${pct}%`,
+            background: "linear-gradient(90deg, #7c3aed 0%, #c084fc 100%)",
+          }}
         />
       </div>
     </div>

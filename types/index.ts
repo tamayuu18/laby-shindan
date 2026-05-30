@@ -30,6 +30,8 @@ export type ResultData = {
   scoreRange: [number, number];
   accentColor: string;
   bgGradient: string;
+  cardBg: string;
+  cardAccent: string;
 };
 
 export type Step = "start" | "question" | "result";

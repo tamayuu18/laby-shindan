@@ -20,6 +20,8 @@ export const results: ResultData[] = [
     scoreRange: [0, 6],
     accentColor: "#F5C842",
     bgGradient: "from-amber-900 via-yellow-900 to-neutral-900",
+    cardBg: "#FEF9E7",
+    cardAccent: "#F5C842",
   },
   {
     id: "tanuki",
@@ -40,6 +42,8 @@ export const results: ResultData[] = [
     scoreRange: [7, 14],
     accentColor: "#A78BFA",
     bgGradient: "from-violet-900 via-purple-900 to-neutral-900",
+    cardBg: "#F5F0FF",
+    cardAccent: "#A78BFA",
   },
   {
     id: "cat",
@@ -48,7 +52,7 @@ export const results: ResultData[] = [
     emoji: "🐱",
     catchcopy: "外ではパーティー、家では即ログアウト。",
     description:
-      'あなたは、飲み会では普通に話せるし、笑えるタイプ。でもそれは、かなり高度な“擬態スキル”で成り立っているかもしれません。\n\n「楽しかった」と「もう誰にも会いたくない」が同時に来る人です。外では明るいねこ、家では即ログアウトねこ。飲み会での笑顔の裏では、ずっと心のCPUが動いています。',
+      'あなたは、飲み会では普通に話せるし、笑えるタイプ。でもそれは、かなり高度な"擬態スキル"で成り立っているかもしれません。\n\n「楽しかった」と「もう誰にも会いたくない」が同時に来る人です。外では明るいねこ、家では即ログアウトねこ。飲み会での笑顔の裏では、ずっと心のCPUが動いています。',
     shortDescription:
       "外ではにこにこ、家では即ログアウト。\n明るく見えるけど、実はかなり擬態しているタイプ。",
     features: [
@@ -60,6 +64,8 @@ export const results: ResultData[] = [
     scoreRange: [15, 22],
     accentColor: "#F472B6",
     bgGradient: "from-pink-900 via-rose-900 to-neutral-900",
+    cardBg: "#FFF0F8",
+    cardAccent: "#F472B6",
   },
   {
     id: "rabbit",
@@ -80,6 +86,8 @@ export const results: ResultData[] = [
     scoreRange: [23, 31],
     accentColor: "#6EE7B7",
     bgGradient: "from-emerald-900 via-teal-900 to-neutral-900",
+    cardBg: "#F0FFF9",
+    cardAccent: "#34D399",
   },
   {
     id: "hamster",
@@ -100,6 +108,8 @@ export const results: ResultData[] = [
     scoreRange: [32, 39],
     accentColor: "#FCA5A5",
     bgGradient: "from-red-900 via-orange-900 to-neutral-900",
+    cardBg: "#FFF5F5",
+    cardAccent: "#F87171",
   },
   {
     id: "jellyfish",
@@ -120,6 +130,8 @@ export const results: ResultData[] = [
     scoreRange: [40, 45],
     accentColor: "#67E8F9",
     bgGradient: "from-cyan-950 via-blue-950 to-neutral-950",
+    cardBg: "#F0FBFF",
+    cardAccent: "#22D3EE",
   },
 ];
 

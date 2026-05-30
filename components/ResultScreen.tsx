@@ -17,25 +17,25 @@ export default function ResultScreen({ result, onReset }: Props) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const siteUrl =
-    typeof window !== "undefined" ? window.location.hostname : "nomikai-shindan.vercel.app";
+    typeof window !== "undefined"
+      ? window.location.hostname
+      : "nomikai-shindan.vercel.app";
+
+  const generatePng = async () => {
+    if (!cardRef.current) return null;
+    const { toPng } = await import("html-to-image");
+    return await toPng(cardRef.current, { width: 1080, height: 1920, pixelRatio: 1 });
+  };
 
   const handleSaveImage = async () => {
-    if (!cardRef.current) return;
     setSaveStatus("generating");
-
     try {
-      const { toPng } = await import("html-to-image");
-      const dataUrl = await toPng(cardRef.current, {
-        width: 1080,
-        height: 1920,
-        pixelRatio: 1,
-      });
-
+      const dataUrl = await generatePng();
+      if (!dataUrl) throw new Error();
       const link = document.createElement("a");
       link.download = `nomikai-survival-${result.slug}.png`;
       link.href = dataUrl;
       link.click();
-
       setPreviewUrl(dataUrl);
       setSaveStatus("done");
     } catch {
@@ -44,16 +44,10 @@ export default function ResultScreen({ result, onReset }: Props) {
   };
 
   const handlePreview = async () => {
-    if (!cardRef.current) return;
     setSaveStatus("generating");
-
     try {
-      const { toPng } = await import("html-to-image");
-      const dataUrl = await toPng(cardRef.current, {
-        width: 1080,
-        height: 1920,
-        pixelRatio: 1,
-      });
+      const dataUrl = await generatePng();
+      if (!dataUrl) throw new Error();
       setPreviewUrl(dataUrl);
       setSaveStatus("preview");
     } catch {
@@ -69,140 +63,193 @@ export default function ResultScreen({ result, onReset }: Props) {
   )}`;
 
   return (
-    <div className="flex flex-col min-h-screen px-5 py-10">
+    <div className="min-h-screen" style={{ background: "var(--bg)" }}>
       {/* Hidden card for image generation */}
       <div
-        style={{
-          position: "fixed",
-          top: "-9999px",
-          left: "-9999px",
-          pointerEvents: "none",
-        }}
+        style={{ position: "fixed", top: "-9999px", left: "-9999px", pointerEvents: "none" }}
         aria-hidden="true"
       >
         <StoryCard ref={cardRef} result={result} siteUrl={siteUrl} />
       </div>
 
-      {/* Result header */}
-      <div className="text-center mb-6">
-        <p className="text-xs tracking-widest text-white/40 uppercase mb-1">
+      {/* Hero result header */}
+      <div
+        className="px-5 pt-12 pb-8 text-center"
+        style={{
+          background: `linear-gradient(160deg, ${result.cardBg} 0%, #ffffff 100%)`,
+        }}
+      >
+        <p className="text-xs font-bold tracking-widest mb-4" style={{ color: result.cardAccent }}>
           あなたの診断結果
         </p>
-        <div className="text-8xl mb-4">{result.emoji}</div>
+
+        {/* Character display */}
+        <div
+          className="w-44 h-44 mx-auto rounded-3xl flex items-center justify-center text-8xl mb-5 shadow-lg"
+          style={{
+            background: `linear-gradient(135deg, ${result.cardBg} 0%, #fff 100%)`,
+            boxShadow: `0 8px 32px ${result.cardAccent}40`,
+          }}
+        >
+          {result.emoji}
+        </div>
+
         <h1
-          className="text-2xl font-bold text-white mb-2 leading-tight"
-          style={{ color: result.accentColor }}
+          className="text-2xl font-black mb-2 leading-tight"
+          style={{ color: "#2d1b69" }}
         >
           {result.name}
         </h1>
-        <p className="text-white/60 text-sm italic">{result.catchcopy}</p>
-      </div>
-
-      {/* Description card */}
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-4">
-        {result.description.split("\n\n").map((para, i) => (
-          <p key={i} className="text-white/75 text-sm leading-relaxed mb-3 last:mb-0">
-            {para}
-          </p>
-        ))}
-      </div>
-
-      {/* Features */}
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-8">
-        <p className="text-xs text-white/40 tracking-widest mb-3">
-          あなたの飲み会での特徴
+        <p
+          className="text-sm font-medium italic"
+          style={{ color: result.cardAccent }}
+        >
+          {result.catchcopy}
         </p>
-        <ul className="space-y-2">
-          {result.features.map((f, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm text-white/75">
-              <span style={{ color: result.accentColor }}>◆</span>
-              {f}
-            </li>
-          ))}
-        </ul>
       </div>
 
-      {/* Save button */}
-      <div className="mb-3">
+      <div className="px-5 pb-10 space-y-4 mt-4">
+        {/* Description */}
+        <div
+          className="rounded-3xl p-5 shadow-sm"
+          style={{ background: "#fff", border: "1.5px solid var(--border)" }}
+        >
+          {result.description.split("\n\n").map((para, i) => (
+            <p
+              key={i}
+              className="text-sm leading-relaxed mb-3 last:mb-0"
+              style={{ color: "#4a3880" }}
+            >
+              {para}
+            </p>
+          ))}
+        </div>
+
+        {/* Features */}
+        <div
+          className="rounded-3xl p-5 shadow-sm"
+          style={{ background: "#fff", border: "1.5px solid var(--border)" }}
+        >
+          <p
+            className="text-xs font-black tracking-widest mb-3"
+            style={{ color: result.cardAccent }}
+          >
+            あなたの飲み会での特徴
+          </p>
+          <ul className="space-y-2">
+            {result.features.map((f, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm" style={{ color: "#4a3880" }}>
+                <span className="font-black flex-shrink-0" style={{ color: result.cardAccent }}>
+                  ◆
+                </span>
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Save button */}
         <button
           onClick={handleSaveImage}
           disabled={saveStatus === "generating"}
-          className="w-full bg-gradient-to-r from-violet-500 to-pink-500 text-white font-bold text-base py-4 rounded-2xl shadow-lg shadow-violet-900/40 disabled:opacity-60 hover:opacity-90 active:scale-[0.98] transition-all"
+          className="w-full font-bold text-base py-4 rounded-2xl text-white shadow-lg transition-all hover:opacity-90 active:scale-[0.97] disabled:opacity-60"
+          style={{
+            background: "linear-gradient(90deg, #7c3aed 0%, #9333ea 100%)",
+            boxShadow: "0 4px 20px rgba(124,58,237,0.3)",
+          }}
         >
           {saveStatus === "generating"
-            ? "画像を作成中…"
+            ? "⏳ 画像を作成中…"
             : saveStatus === "done"
             ? "✅ 画像を保存しました"
             : "📸 ストーリーズ用画像を保存"}
         </button>
 
         {saveStatus === "error" && (
-          <div className="mt-2 bg-red-900/30 border border-red-700/50 rounded-xl p-3 text-center">
-            <p className="text-red-300 text-sm">
+          <div
+            className="rounded-2xl p-4 text-center"
+            style={{ background: "#fff0f0", border: "1.5px solid #fca5a5" }}
+          >
+            <p className="text-sm font-medium" style={{ color: "#b91c1c" }}>
               画像の生成に失敗しました。時間をおいてもう一度お試しください。
             </p>
-            <p className="text-white/40 text-xs mt-1">
+            <p className="text-xs mt-1" style={{ color: "#9ca3af" }}>
               結果カードをスクショして投稿してね
             </p>
           </div>
         )}
 
-        <p className="text-center text-white/35 text-xs mt-2">
+        <p className="text-center text-xs" style={{ color: "#a78bfa" }}>
           画像を保存して、Instagramストーリーズに投稿してね。
         </p>
-        <p className="text-center text-white/25 text-xs mt-1">
-          保存できない場合は「画像を確認」ボタンから長押し保存してください。
+        <p className="text-center text-xs" style={{ color: "#c4b5fd" }}>
+          保存できない場合は下の「画像を確認」ボタンから長押しで保存してください。
         </p>
+
+        {/* Preview button */}
+        <button
+          onClick={handlePreview}
+          disabled={saveStatus === "generating"}
+          className="w-full font-medium text-sm py-3 rounded-2xl transition-all hover:opacity-80 active:scale-[0.97] disabled:opacity-40"
+          style={{
+            background: "#f0e8ff",
+            color: "#7c3aed",
+            border: "1.5px solid #ddd6fe",
+          }}
+        >
+          🖼 画像を確認する（長押しで保存）
+        </button>
+
+        {/* X share */}
+        <a
+          href={xShareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full flex items-center justify-center gap-2 font-medium text-sm py-3 rounded-2xl transition-all hover:opacity-80"
+          style={{
+            background: "#fff",
+            color: "#2d1b69",
+            border: "1.5px solid var(--border)",
+          }}
+        >
+          <span className="font-black text-base">𝕏</span> Xでシェアする
+        </a>
+
+        {/* Reset */}
+        <button
+          onClick={onReset}
+          className="w-full text-sm py-3 transition-colors"
+          style={{ color: "#a78bfa" }}
+        >
+          もう一度診断する
+        </button>
       </div>
 
-      {/* Preview button */}
-      <button
-        onClick={handlePreview}
-        disabled={saveStatus === "generating"}
-        className="w-full border border-white/15 text-white/60 text-sm py-3 rounded-2xl hover:bg-white/5 active:scale-[0.98] transition-all mb-4 disabled:opacity-40"
-      >
-        🖼 画像を確認する（長押しで保存）
-      </button>
-
-      {/* Image preview modal */}
+      {/* Preview modal */}
       {saveStatus === "preview" && previewUrl && (
         <div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.85)" }}
           onClick={() => setSaveStatus("idle")}
         >
-          <p className="text-white/70 text-sm mb-3">長押しして保存してください</p>
+          <p className="text-white/80 text-sm mb-3 font-medium">
+            長押しして保存してください
+          </p>
           <img
             src={previewUrl}
             alt="診断結果カード"
-            className="max-w-full max-h-[80vh] rounded-xl object-contain"
+            className="max-w-full rounded-2xl object-contain"
+            style={{ maxHeight: "75vh" }}
             onClick={(e) => e.stopPropagation()}
           />
           <button
-            className="mt-4 text-white/50 text-sm border border-white/20 px-6 py-2 rounded-full"
+            className="mt-4 text-white/60 text-sm border border-white/20 px-6 py-2 rounded-full"
             onClick={() => setSaveStatus("idle")}
           >
             閉じる
           </button>
         </div>
       )}
-
-      {/* X share */}
-      <a
-        href={xShareUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="w-full flex items-center justify-center gap-2 border border-white/15 text-white/70 text-sm py-3 rounded-2xl hover:bg-white/5 transition-all mb-3"
-      >
-        <span className="font-bold">𝕏</span> Xでシェアする
-      </a>
-
-      {/* Reset */}
-      <button
-        onClick={onReset}
-        className="w-full text-white/30 text-sm py-3 hover:text-white/50 transition-colors"
-      >
-        もう一度診断する
-      </button>
     </div>
   );
 }
